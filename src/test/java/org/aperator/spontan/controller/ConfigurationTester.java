@@ -25,7 +25,7 @@ public class ConfigurationTester extends AbstractWebPageTest {
 
     @Test
     public void simple() throws Exception {
-        mockMvc.perform(get("/spontan"))
+        mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("spontan"));
     }

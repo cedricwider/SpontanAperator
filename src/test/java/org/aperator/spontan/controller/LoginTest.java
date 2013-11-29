@@ -26,7 +26,7 @@ public class LoginTest extends AbstractWebPageTest {
 
     @Test
     public void loginPageShouldBeReachable() throws Exception {
-        mockMvc.perform(get("/spontan/login"))
+        mockMvc.perform(get("/login"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
@@ -56,7 +56,7 @@ public class LoginTest extends AbstractWebPageTest {
         LoginRequestData loginRequestData = new LoginRequestData();
         loginRequestData.setUsername("JUnitUsername");
         loginRequestData.setPassword("JUnitPassword");
-        mockMvc.perform(post("/spontan/login")
+        mockMvc.perform(post("/login")
                 .param("username", "JUnitUsername")
                 .param("password", "JUnitPassword"))
 
@@ -64,7 +64,7 @@ public class LoginTest extends AbstractWebPageTest {
     }
 
     private void callServiceAndExpect401For(LoginRequestData loginRequestData) throws Exception {
-        mockMvc.perform(post("/spontan/login")
+        mockMvc.perform(post("/login")
                 .param("username", loginRequestData.getUsername())
                 .param("password", loginRequestData.getPassword()))
 

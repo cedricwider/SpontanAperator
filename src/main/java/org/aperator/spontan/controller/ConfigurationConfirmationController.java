@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/spontan")
+@RequestMapping("/")
 public class ConfigurationConfirmationController {
 
     @RequestMapping(method = RequestMethod.GET)

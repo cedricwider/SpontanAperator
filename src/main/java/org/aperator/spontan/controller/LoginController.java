@@ -23,7 +23,7 @@ import javax.servlet.http.HttpSession;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
-@RequestMapping("/spontan/login")
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
