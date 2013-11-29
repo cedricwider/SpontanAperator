@@ -28,6 +28,5 @@ public class ConfigurationTester extends AbstractWebPageTest {
         mockMvc.perform(get("/spontan"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("spontan"));
-
     }
 }
