@@ -3,6 +3,7 @@ package org.aperator.spontan.controller;
 import org.aperator.spontan.controller.data.LoginRequestData;
 import org.aperator.spontan.controller.data.UserError;
 import org.aperator.spontan.model.data.User;
+import org.aperator.spontan.model.data.manager.PasswordManager;
 import org.aperator.spontan.model.data.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
 
     @Autowired
-    private UserManager userManager;
+    private PasswordManager passwordManager;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView displayLoginPage() {
@@ -36,9 +37,8 @@ public class LoginController {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView doLogin(@ModelAttribute("loginUser") LoginRequestData loginUser, HttpSession session, HttpServletResponse response) {
         ModelAndView modelAndView;
-        User realUser = this.userManager.getUserByUsername(loginUser.getUsername());
-        if (realUser != null) {
-            session.setAttribute("user", realUser);
+        if (this.passwordManager.isValidPassword(loginUser.getUsername(), loginUser.getPassword())) {
+            session.setAttribute("username", loginUser.getUsername());
             modelAndView = new ModelAndView();
             modelAndView.setViewName("profile");
         } else {
@@ -47,9 +47,4 @@ public class LoginController {
         }
         return modelAndView;
     }
-
-    public void setUserManager(UserManager userManager) {
-        this.userManager = userManager;
-    }
-
 }

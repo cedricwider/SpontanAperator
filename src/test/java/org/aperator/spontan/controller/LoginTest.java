@@ -51,27 +51,23 @@ public class LoginTest extends AbstractWebPageTest {
         this.callServiceAndExpect401For(passwordOnly);
     }
 
+    @Test
+    public void loginWithValidCredentialsShouldWork() throws Exception {
+        LoginRequestData loginRequestData = new LoginRequestData();
+        loginRequestData.setUsername("JUnitUsername");
+        loginRequestData.setPassword("JUnitPassword");
+        mockMvc.perform(post("/spontan/login")
+                .param("username", "JUnitUsername")
+                .param("password", "JUnitPassword"))
+
+                .andExpect(status().isOk());
+    }
+
     private void callServiceAndExpect401For(LoginRequestData loginRequestData) throws Exception {
-        String body = jsonForLoginRequestData(loginRequestData);
-        mockMvc.perform(post("/spontan/login").content(body))
+        mockMvc.perform(post("/spontan/login")
+                .param("username", loginRequestData.getUsername())
+                .param("password", loginRequestData.getPassword()))
+
                 .andExpect(status().isUnauthorized());
     }
-
-    private String jsonForLoginRequestData(LoginRequestData loginRequestData) {
-        StringBuilder jsonBuffer = new StringBuilder("{");
-        if (loginRequestData.getUsername() != null) {
-            jsonBuffer.append("username: \"").append(loginRequestData.getUsername()).append("\"");
-        }
-
-        if (loginRequestData.getUsername() != null && loginRequestData.getPassword() != null) {
-            jsonBuffer.append(", ");
-        }
-
-        if (loginRequestData.getPassword() != null) {
-            jsonBuffer.append("password: \"").append(loginRequestData.getPassword()).append("\"");
-        }
-        jsonBuffer.append("}");
-        return jsonBuffer.toString();
-    }
-
 }

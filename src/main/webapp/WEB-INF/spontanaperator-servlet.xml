@@ -20,6 +20,8 @@
         </property>
     </bean>
 
+    <bean id="passwordManager" class="org.aperator.spontan.model.data.manager.impl.SimplePasswordManager"/>
+
     <bean id="jUnitUser" class="org.aperator.spontan.model.data.User">
         <property name="username" value="JUnitUsername" />
         <property name="nickName" value="JUnitNickname" />
