@@ -1,0 +1,14 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                            http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!-- Stock business object -->
+    <bean id="userBo" class="org.aperator.spontan.model.data.bo.UserBOImpl" >
+        <property name="userDAO" ref="userDao"/>
+    </bean>
+
+    <bean id="userDao" class="org.aperator.spontan.model.data.dao.UserDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+</beans>

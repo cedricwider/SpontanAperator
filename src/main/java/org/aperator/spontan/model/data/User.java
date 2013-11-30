@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
 
+    private Long userId;
     private String username;
     private String nickName;
     private String phoneNumber;
@@ -37,5 +38,13 @@ public class User implements Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
