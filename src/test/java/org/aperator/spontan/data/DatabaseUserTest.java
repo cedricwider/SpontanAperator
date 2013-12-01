@@ -2,7 +2,7 @@ package org.aperator.spontan.data;
 
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
-import org.aperator.spontan.model.data.bo.UserBO;
+import org.aperator.spontan.model.data.manager.UserManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,37 +23,38 @@ import static junit.framework.Assert.assertNotNull;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:src/main/webapp/WEB-INF/spontanaperator-servlet.xml")
+@ContextConfiguration("file:src/test/resources/JUnit_Spring.xml")
 public class DatabaseUserTest {
 
+    public static final String USERNAME = "DatabaseUserTest_Username";
     @Autowired
     private ApplicationContext applicationContext;
 
     @Test
     public void crudOperationsShouldBeSupported() {
-        UserBO userBO = (UserBO) applicationContext.getBean("userBo");
+        UserManager userManager = (UserManager) applicationContext.getBean("userBo");
 
         User myUser = new User();
         myUser.setPhoneNumber("+41 79 136 75 01");
-        myUser.setUsername("JUnitUsername");
+        myUser.setUsername(USERNAME);
         myUser.setNickName("JUnitNickname");
         Password myPassword = new Password();
         myPassword.setPasswordHash("JUnitPassword");
         myUser.setPassword(myPassword);
 
-        userBO.save(myUser);
+        userManager.save(myUser);
 
-        User dbUser = userBO.findByUsername("JUnitUsername");
+        User dbUser = userManager.findByUsername(USERNAME);
         assertNotNull(dbUser);
         assertEquals(myUser.getNickName(), dbUser.getNickName());
 
         dbUser.setNickName("Updated");
-        userBO.update(dbUser);
+        userManager.update(dbUser);
 
-        User updatedDbUser = userBO.findByUsername("JUnitUsername");
+        User updatedDbUser = userManager.findByUsername(USERNAME);
         assertNotNull(updatedDbUser);
         assertEquals("Updated", updatedDbUser.getNickName());
 
-        userBO.delete(updatedDbUser);
+        userManager.delete(updatedDbUser);
     }
 }

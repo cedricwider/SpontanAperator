@@ -13,9 +13,4 @@ public class DummyPasswordManager implements PasswordManager {
     public boolean isValidPassword(String username, String password) {
         return ("JUnitUsername".equals(username) && "JUnitPassword".equals(password));
     }
-
-    @Override
-    public void updatePassword(String username, String oldPassword, String newPassword) throws Exception {
-        // NO OP
-    }
 }

@@ -1,8 +1,8 @@
 package org.aperator.spontan.model.data.manager.impl;
 
 import org.aperator.spontan.model.data.User;
-import org.aperator.spontan.model.data.bo.UserBO;
 import org.aperator.spontan.model.data.manager.PasswordManager;
+import org.aperator.spontan.model.data.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -14,15 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class SimplePasswordManager implements PasswordManager {
 
     @Autowired
-    private UserBO userBo;
+    private UserManager userManager;
 
     @Override
     public boolean isValidPassword(String username, String password) {
-        User user = userBo.findByUsername(username);
+        User user = userManager.findByUsername(username);
         return user != null && user.getPassword().getPasswordHash().equals(password);
-    }
-
-    @Override
-    public void updatePassword(String username, String oldPassword, String newPassword) throws Exception {
     }
 }

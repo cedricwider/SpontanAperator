@@ -3,7 +3,7 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
-    <class name="org.aperator.spontan.model.data.User" table="User" catalog="spontan">
+    <class name="org.aperator.spontan.model.data.User" table="User">
         <id name="userId" type="java.lang.Long">
             <column name="id" />
             <generator class="identity" />

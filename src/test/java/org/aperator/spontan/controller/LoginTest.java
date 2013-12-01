@@ -13,20 +13,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 /**
- * Created with IntelliJ IDEA.
  * User: cedster
  * Date: 24/11/13
  * Time: 15:16
- * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(value = "file:src/test/resources/JUnit_Spring.xml")
 public class LoginTest extends AbstractWebPageTest {
 
+    public static final String LOGIN_URL = "/user/login";
+
     @Test
     public void loginPageShouldBeReachable() throws Exception {
-        mockMvc.perform(get("/login"))
+        mockMvc.perform(get(LOGIN_URL))
                 .andExpect(status().isOk())
                 .andExpect(view().name("login"));
     }
@@ -56,7 +56,7 @@ public class LoginTest extends AbstractWebPageTest {
         LoginRequestData loginRequestData = new LoginRequestData();
         loginRequestData.setUsername("JUnitUsername");
         loginRequestData.setPassword("JUnitPassword");
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post(LOGIN_URL)
                 .param("username", "JUnitUsername")
                 .param("password", "JUnitPassword"))
 
@@ -64,7 +64,7 @@ public class LoginTest extends AbstractWebPageTest {
     }
 
     private void callServiceAndExpect401For(LoginRequestData loginRequestData) throws Exception {
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post(LOGIN_URL)
                 .param("username", loginRequestData.getUsername())
                 .param("password", loginRequestData.getPassword()))
 

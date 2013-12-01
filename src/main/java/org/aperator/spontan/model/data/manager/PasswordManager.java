@@ -10,6 +10,4 @@ package org.aperator.spontan.model.data.manager;
 public interface PasswordManager {
 
     public boolean isValidPassword(String username, String password);
-
-    public void updatePassword(String username, String oldPassword, String newPassword) throws Exception;
 }

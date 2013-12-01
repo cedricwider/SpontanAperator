@@ -16,14 +16,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean id="userManager" class="org.aperator.spontan.model.data.manager.impl.SimpleUserManager">
-        <property name="users">
-            <list>
-                <ref bean="jUnitUser" />
-            </list>
-        </property>
-    </bean>
-
     <bean id="passwordManager" class="org.aperator.spontan.model.data.manager.impl.SimplePasswordManager"/>
 
     <bean id="jUnitUser" class="org.aperator.spontan.model.data.User">

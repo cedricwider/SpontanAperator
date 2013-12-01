@@ -1,9 +1,10 @@
-package org.aperator.spontan.model.data.bo;
+package org.aperator.spontan.model.data.manager.impl;
 
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.dao.PasswordDAO;
 import org.aperator.spontan.model.data.dao.UserDAO;
+import org.aperator.spontan.model.data.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Date: 30/11/13
  * Time: 01:32
  */
-public class UserBOImpl implements UserBO {
+public class UserManagerImpl implements UserManager {
 
     @Autowired
     private UserDAO userDAO;
@@ -43,7 +44,9 @@ public class UserBOImpl implements UserBO {
     @Override
     public User findByUsername(String username) {
         User user = this.userDAO.findByUsername(username);
-        user.setPassword(this.passwordDAO.findByUserId(user.getUserId()));
+        if (user != null) {
+            user.setPassword(this.passwordDAO.findByUserId(user.getUserId()));
+        }
         return user;
     }
 
