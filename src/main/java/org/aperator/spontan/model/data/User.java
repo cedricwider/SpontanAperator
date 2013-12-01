@@ -3,11 +3,9 @@ package org.aperator.spontan.model.data;
 import java.io.Serializable;
 
 /**
- * Created with IntelliJ IDEA.
  * User: cedster
  * Date: 24/11/13
  * Time: 15:56
- * To change this template use File | Settings | File Templates.
  */
 public class User implements Serializable {
 
@@ -15,6 +13,7 @@ public class User implements Serializable {
     private String username;
     private String nickName;
     private String phoneNumber;
+    private Password password;
 
     public String getUsername() {
         return username;
@@ -46,5 +45,13 @@ public class User implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public Password getPassword() {
+        return password;
+    }
+
+    public void setPassword(Password password) {
+        this.password = password;
     }
 }

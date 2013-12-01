@@ -1,5 +1,6 @@
 package org.aperator.spontan.data;
 
+import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.bo.UserBO;
 import org.junit.Test;
@@ -36,6 +37,9 @@ public class DatabaseUserTest {
         myUser.setPhoneNumber("+41 79 136 75 01");
         myUser.setUsername("JUnitUsername");
         myUser.setNickName("JUnitNickname");
+        Password myPassword = new Password();
+        myPassword.setPasswordHash("JUnitPassword");
+        myUser.setPassword(myPassword);
 
         userBO.save(myUser);
 

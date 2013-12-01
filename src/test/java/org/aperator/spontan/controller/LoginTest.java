@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:src/main/webapp/WEB-INF/spontanaperator-servlet.xml")
+@ContextConfiguration(value = "file:src/test/resources/JUnit_Spring.xml")
 public class LoginTest extends AbstractWebPageTest {
 
     @Test

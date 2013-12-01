@@ -6,9 +6,14 @@
     <!-- Stock business object -->
     <bean id="userBo" class="org.aperator.spontan.model.data.bo.UserBOImpl" >
         <property name="userDAO" ref="userDao"/>
+        <property name="passwordDAO" ref="passwordDao" />
     </bean>
 
     <bean id="userDao" class="org.aperator.spontan.model.data.dao.UserDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="passwordDao" class="org.aperator.spontan.model.data.dao.PasswordDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 </beans>
