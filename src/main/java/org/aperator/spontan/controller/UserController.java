@@ -71,7 +71,7 @@ public class UserController {
         user.setPassword(password);
         user.setPhoneNumber(registerData.getPhonenumber());
         user.setUsername(registerData.getUsername());
-        this.userManager.save(user);
+        this.userManager.create(user);
         session.setAttribute("user", user);
         return "profile";
     }

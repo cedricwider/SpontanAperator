@@ -4,7 +4,7 @@
                             http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
     <!-- Stock business object -->
-    <bean id="userBo" class="org.aperator.spontan.model.data.manager.impl.UserManagerImpl" >
+    <bean id="userManager" class="org.aperator.spontan.model.data.manager.impl.UserManagerImpl" >
         <property name="userDAO" ref="userDao"/>
         <property name="passwordDAO" ref="passwordDao" />
     </bean>

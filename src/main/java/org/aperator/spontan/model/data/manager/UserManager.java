@@ -9,7 +9,7 @@ import org.aperator.spontan.model.data.User;
  */
 public interface UserManager {
 
-    public void save(User user);
+    public void create(User user);
     public User findByUsername(String username);
     public void update(User user);
     public void delete(User user);

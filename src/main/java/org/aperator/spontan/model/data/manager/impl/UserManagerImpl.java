@@ -21,7 +21,7 @@ public class UserManagerImpl implements UserManager {
     private PasswordDAO passwordDAO;
 
     @Override
-    public void save(User user) {
+    public void create(User user) {
         this.userDAO.save(user);
         Password password = user.getPassword();
         password.setUserId(user.getUserId());
