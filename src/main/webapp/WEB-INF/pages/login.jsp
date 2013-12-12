@@ -17,6 +17,7 @@
                <input type="submit" value="Login"/>
            </div>
        </form:form>
+        <a href="/spontan/user/new">Register here...!</a>
     </div>
 </body>
 </html>
