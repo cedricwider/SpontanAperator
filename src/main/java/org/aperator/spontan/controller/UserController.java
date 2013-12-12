@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * User: cedster
@@ -30,6 +31,9 @@ public class UserController {
     private PasswordManager passwordManager;
 
     @Autowired
+    UserDataConverter userDataConverter;
+
+    @Autowired
     private UserManager userManager;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
@@ -38,12 +42,14 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView doLogin(@ModelAttribute("loginUser") LoginRequestData loginUser, HttpSession session, HttpServletResponse response) {
+    public ModelAndView doLogin(@ModelAttribute("loginUser") LoginRequestData loginUser, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException {
         ModelAndView modelAndView;
         if (this.passwordManager.isValidPassword(loginUser.getUsername(), loginUser.getPassword())) {
-            session.setAttribute("user", this.userManager.findByUsername(loginUser.getUsername()));
+            User user = this.userManager.findByUsername(loginUser.getUsername());
+            session.setAttribute("user", user);
             modelAndView = new ModelAndView();
             modelAndView.setViewName("profile");
+            modelAndView.addObject("userData", userDataConverter.toUserData(user));
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             modelAndView = new ModelAndView("login", "error", new UserError("Invalid username password combination"));
@@ -52,25 +58,31 @@ public class UserController {
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String registerUser(@ModelAttribute("newUser") RegisterUserRequestData registerData, HttpSession session, HttpServletResponse response) {
+    public ModelAndView registerUser(@ModelAttribute("newUser") RegisterUserRequestData registerData, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException {
+        ModelAndView modelAndView = new ModelAndView();
         String username = registerData.getUsername();
         if (this.userManager.findByUsername(username) != null) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
-            return "register";
+            modelAndView.setViewName("register");
+            return modelAndView;
         }
 
-        if(!isValidPassword(registerData.getPassword(), registerData.getPasswordConfirmation())) {
+        if(!isValidPasswordRequest(registerData.getPassword(), registerData.getPasswordConfirmation())) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return "register";
+            modelAndView.setViewName("register");
+            return modelAndView;
         }
 
-        User user = UserDataConverter.fromRegisterUserRequestData(registerData);
+        User user = userDataConverter.fromRegisterUserRequestData(registerData);
         this.userManager.create(user);
         session.setAttribute("user", user);
-        return "profile";
+
+        modelAndView.setViewName("profile");
+        modelAndView.addObject(userDataConverter.toUserData(user));
+        return modelAndView;
     }
 
-    private boolean isValidPassword(String password, String passwordConfirmation) {
+    private boolean isValidPasswordRequest(String password, String passwordConfirmation) {
         return (StringUtils.isNotEmpty(password)
                 && StringUtils.isNotEmpty(passwordConfirmation)
                 && password.equals(passwordConfirmation));

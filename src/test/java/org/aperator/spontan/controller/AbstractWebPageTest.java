@@ -2,6 +2,7 @@ package org.aperator.spontan.controller;
 
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -23,6 +24,9 @@ public abstract class AbstractWebPageTest {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     protected WebApplicationContext wac;
+
+    @Autowired
+    protected ApplicationContext applicationContext;
 
     @Before
     public void setup() {

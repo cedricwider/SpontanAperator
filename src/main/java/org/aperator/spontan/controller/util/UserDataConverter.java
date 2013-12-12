@@ -4,6 +4,7 @@ import org.aperator.spontan.controller.RegisterUserRequestData;
 import org.aperator.spontan.controller.data.UserData;
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
+import org.aperator.spontan.model.data.manager.PasswordEncryptor;
 
 /**
  * Created with IntelliJ IDEA.
@@ -13,11 +14,17 @@ import org.aperator.spontan.model.data.User;
  */
 public class UserDataConverter {
 
-    public static User fromRegisterUserRequestData(RegisterUserRequestData registerData) {
+    private PasswordEncryptor passwordEncryptor;
+
+    public UserDataConverter(PasswordEncryptor passwordEncryptor) {
+        this.passwordEncryptor = passwordEncryptor;
+    }
+
+    public User fromRegisterUserRequestData(RegisterUserRequestData registerData) {
         User user = new User();
         user.setNickName(registerData.getNickname());
         Password password = new Password();
-        password.setPasswordHash(registerData.getPassword());
+        password.setPasswordHash(passwordEncryptor.encrypt(registerData.getPassword()));
         user.setPassword(password);
         user.setPhoneNumber(registerData.getPhonenumber());
         user.setUsername(registerData.getUsername());
@@ -25,7 +32,7 @@ public class UserDataConverter {
         return user;
     }
 
-    public static UserData toUserData(User user) {
+    public UserData toUserData(User user) {
         UserData userData = new UserData();
         userData.setUserId(user.getUserId());
         userData.setUsername(user.getUsername());

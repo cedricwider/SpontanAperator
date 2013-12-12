@@ -1,8 +1,13 @@
 package org.aperator.spontan.controller;
 
 import org.aperator.spontan.controller.data.LoginRequestData;
+import org.aperator.spontan.model.data.Password;
+import org.aperator.spontan.model.data.User;
+import org.aperator.spontan.model.data.manager.PasswordEncryptor;
+import org.aperator.spontan.model.data.manager.UserManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,6 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class LoginTest extends AbstractWebPageTest {
 
     public static final String LOGIN_URL = "/user/login";
+
+    @Autowired
+    private PasswordEncryptor passwordEncryptor;
 
     @Test
     public void loginPageShouldBeReachable() throws Exception {
@@ -53,13 +61,15 @@ public class LoginTest extends AbstractWebPageTest {
 
     @Test
     public void loginWithValidCredentialsShouldWork() throws Exception {
-        LoginRequestData loginRequestData = new LoginRequestData();
-        loginRequestData.setUsername("JUnitUsername");
-        loginRequestData.setPassword("JUnitPassword");
+        // given
+        createValidUserInDatabase();
+
+        // when
         mockMvc.perform(post(LOGIN_URL)
-                .param("username", "JUnitUsername")
+                .param("username", "ValidJUnitUsername")
                 .param("password", "JUnitPassword"))
 
+        // expect
                 .andExpect(status().isOk());
     }
 
@@ -69,5 +79,22 @@ public class LoginTest extends AbstractWebPageTest {
                 .param("password", loginRequestData.getPassword()))
 
                 .andExpect(status().isUnauthorized());
+    }
+
+    private void createValidUserInDatabase() {
+        UserManager userManager = (UserManager) this.applicationContext.getBean("userManager");
+        userManager.create(generateValidUser());
+    }
+
+    private User generateValidUser() {
+        User user = new User();
+        user.setPhoneNumber("PhoneNumber");
+        user.setUsername("ValidJUnitUsername");
+        Password password = new Password();
+        password.setPasswordHash(passwordEncryptor.encrypt("JUnitPassword"));
+        user.setPassword(password);
+        user.setNickName("Nickname");
+        user.setEmail("email");
+        return user;
     }
 }

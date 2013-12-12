@@ -11,6 +11,6 @@ import org.aperator.spontan.model.data.manager.PasswordManager;
 public class DummyPasswordManager implements PasswordManager {
     @Override
     public boolean isValidPassword(String username, String password) {
-        return ("JUnitUsername".equals(username) && "JUnitPassword".equals(password));
+        return ("ValidJUnitUsername".equals(username) && "JUnitPassword".equals(password));
     }
 }

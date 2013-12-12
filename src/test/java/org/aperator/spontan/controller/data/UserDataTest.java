@@ -3,6 +3,7 @@ package org.aperator.spontan.controller.data;
 import org.aperator.spontan.controller.util.UserDataConverter;
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
+import org.aperator.spontan.model.data.manager.PasswordEncryptor;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
@@ -26,9 +27,16 @@ public class UserDataTest {
         password.setPasswordHash("PasswordHash");
         user.setPassword(password);
         user.setNickName("Nickname");
+        user.setEmail("Email");
+        UserDataConverter userDataConverter = new UserDataConverter(new PasswordEncryptor() {
+            @Override
+            public String encrypt(String password) {
+                return password;
+            }
+        });
 
         // when
-        UserData userData = UserDataConverter.toUserData(user);
+        UserData userData = userDataConverter.toUserData(user);
 
         // expect
         assertEquals(userData.getEmail(), user.getEmail());
@@ -36,5 +44,6 @@ public class UserDataTest {
         assertEquals(userData.getPhoneNumber(), user.getPhoneNumber());
         assertEquals(userData.getUsername(), user.getUsername());
         assertEquals(userData.getUserId(), user.getUserId());
+        assertEquals(userData.getEmail(), user.getEmail());
     }
 }

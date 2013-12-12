@@ -18,6 +18,14 @@
 
     <bean id="passwordManager" class="org.aperator.spontan.model.data.manager.impl.SimplePasswordManager"/>
 
+    <bean id="userDataConverter" class="org.aperator.spontan.controller.util.UserDataConverter">
+        <constructor-arg ref="passwordEncryptor" />
+    </bean>
+
+    <bean id="passwordEncryptor" class="org.aperator.spontan.model.data.manager.impl.SecurePasswordEncryptor">
+        <property name="encryptionAlgorithm" value="MD5" />
+    </bean>
+
     <bean id="jUnitUser" class="org.aperator.spontan.model.data.User">
         <property name="username" value="JUnitUsername" />
         <property name="nickName" value="JUnitNickname" />
