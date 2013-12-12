@@ -12,9 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
+import static junit.framework.Assert.*;
 
 /**
  * User: cedster
@@ -71,6 +69,7 @@ public class DatabaseUserTest {
 
     private void createUserInDatabaseWithUsername(String username) {
         User myUser = new User();
+        myUser.setEmail(username+"@unit.com");
         myUser.setPhoneNumber("+41 79 136 75 01");
         myUser.setUsername(username);
         myUser.setNickName("JUnitNickname");

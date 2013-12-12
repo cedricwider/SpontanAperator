@@ -3,7 +3,7 @@ package org.aperator.spontan.controller;
 import org.apache.commons.lang.StringUtils;
 import org.aperator.spontan.controller.data.LoginRequestData;
 import org.aperator.spontan.controller.data.UserError;
-import org.aperator.spontan.model.data.Password;
+import org.aperator.spontan.controller.util.UserDataConverter;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.manager.PasswordManager;
 import org.aperator.spontan.model.data.manager.UserManager;
@@ -64,13 +64,7 @@ public class UserController {
             return "register";
         }
 
-        User user = new User();
-        user.setNickName(registerData.getNickname());
-        Password password = new Password();
-        password.setPasswordHash(registerData.getPassword());
-        user.setPassword(password);
-        user.setPhoneNumber(registerData.getPhonenumber());
-        user.setUsername(registerData.getUsername());
+        User user = UserDataConverter.fromRegisterUserRequestData(registerData);
         this.userManager.create(user);
         session.setAttribute("user", user);
         return "profile";

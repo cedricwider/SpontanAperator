@@ -26,7 +26,8 @@ public class RegisterUserTest extends AbstractWebPageTest {
             .param("password", "JUnitPassword")
             .param("passwordConfirmation", "JUnitPassword")
             .param("nickname", "JUnitNickname")
-            .param("phonenumber", "JUnitPhonenumber"))
+            .param("phonenumber", "JUnitPhonenumber")
+            .param("email", "JUnitEmail"))
         .andExpect(status().isOk());
     }
 }

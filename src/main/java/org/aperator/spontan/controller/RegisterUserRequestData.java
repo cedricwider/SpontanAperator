@@ -12,6 +12,7 @@ public class RegisterUserRequestData {
     private String passwordConfirmation;
     private String nickname;
     private String phonenumber;
+    private String email;
 
     public String getUsername() {
         return username;
@@ -51,5 +52,13 @@ public class RegisterUserRequestData {
 
     public void setPhonenumber(String phonenumber) {
         this.phonenumber = phonenumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -4,7 +4,9 @@ CREATE TABLE User (
   name VARCHAR(255) NOT NULL,
   nickname VARCHAR(255),
   phone_number VARCHAR(25) NOT NULL,
-  CONSTRAINT unique_name UNIQUE(name)
+  email VARCHAR(255) NOT NULL,
+  CONSTRAINT unique_name UNIQUE(name),
+  CONSTRAINT unique_email UNIQUE(email)
 );
 
 DROP TABLE IF EXISTS Password;
