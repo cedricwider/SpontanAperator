@@ -36,6 +36,12 @@ public class UserController {
     @Autowired
     private UserManager userManager;
 
+    @RequestMapping(method = RequestMethod.GET)
+    public ModelAndView showUser(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        return new ModelAndView("profile", "userData", userDataConverter.toUserData(user));
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView displayLoginPage() {
         return new ModelAndView("login", "loginUser", new LoginRequestData());
@@ -47,9 +53,7 @@ public class UserController {
         if (this.passwordManager.isValidPassword(loginUser.getUsername(), loginUser.getPassword())) {
             User user = this.userManager.findByUsername(loginUser.getUsername());
             session.setAttribute("user", user);
-            modelAndView = new ModelAndView();
-            modelAndView.setViewName("profile");
-            modelAndView.addObject("userData", userDataConverter.toUserData(user));
+            modelAndView = new ModelAndView("profile", "userData", userDataConverter.toUserData(user));
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             modelAndView = new ModelAndView("login", "error", new UserError("Invalid username password combination"));
@@ -57,8 +61,13 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public ModelAndView registerUser() {
+        return new ModelAndView("register", "newUser", new RegisterUserRequestData());
+    }
+
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public ModelAndView registerUser(@ModelAttribute("newUser") RegisterUserRequestData registerData, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException {
+    public ModelAndView doRegisterUser(@ModelAttribute("newUser") RegisterUserRequestData registerData, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException {
         ModelAndView modelAndView = new ModelAndView();
         String username = registerData.getUsername();
         if (this.userManager.findByUsername(username) != null) {
@@ -78,7 +87,7 @@ public class UserController {
         session.setAttribute("user", user);
 
         modelAndView.setViewName("profile");
-        modelAndView.addObject(userDataConverter.toUserData(user));
+        modelAndView.addObject("userData", userDataConverter.toUserData(user));
         return modelAndView;
     }
 

@@ -4,7 +4,7 @@
 <body>
 	<h1>Login</h1>
     <div>
-       <form:form method="post" modelAttribute="loginUser" action="/spontan/login">
+       <form:form method="post" modelAttribute="loginUser" action="/spontan/user/login">
            <div>
                <label for="username">Username</label>
                <form:input path="username" name="username"/>

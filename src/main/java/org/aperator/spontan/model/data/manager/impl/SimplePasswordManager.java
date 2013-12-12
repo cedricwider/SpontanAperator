@@ -16,9 +16,12 @@ public class SimplePasswordManager implements PasswordManager {
     @Autowired
     private UserManager userManager;
 
+    @Autowired
+    SecurePasswordEncryptor passwordEncryptor;
+
     @Override
     public boolean isValidPassword(String username, String password) {
         User user = userManager.findByUsername(username);
-        return user != null && user.getPassword().getPasswordHash().equals(password);
+        return user != null && user.getPassword().getPasswordHash().equals(passwordEncryptor.encrypt(password));
     }
 }
