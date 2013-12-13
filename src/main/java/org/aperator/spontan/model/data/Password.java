@@ -1,11 +1,14 @@
 package org.aperator.spontan.model.data;
 
+import java.io.Serializable;
+
 /**
  * User: cedster
  * Date: 01/12/13
  * Time: 18:33
  */
-public class Password {
+public class Password implements Serializable {
+
 
     private Long passwordId;
     private Long userId;

@@ -1,38 +1,18 @@
 <%@ include file="/WEB-INF/pages/include.jsp" %>
-
 <html>
-<body>
-	<h1>Register</h1>
-    <div>
-       <form:form method="post" modelAttribute="newUser" action="/spontan/user/new">
-           <div>
-               <label for="username">Username</label>
-               <form:input path="username" name="username"/>
-           </div>
-           <div>
-               <label for="password">Password</label>
-               <form:password path="password" name="password"/>
-           </div>
-           <div>
-               <label for="passwordConfirmation">PasswordConfirmation</label>
-               <form:password path="passwordConfirmation" name="passwordConfirmation"/>
-           </div>
-           <div>
-               <label for="nickname">Nickname</label>
-               <form:input path="nickname" name="nickname"/>
-           </div>
-           <div>
-               <label for="phoneNumber">PhoneNumber</label>
-               <form:input path="phonenumber" name="phoneNumber"/>
-           </div>
-           <div>
-               <label for="email">Email</label>
-               <form:input path="email" name="email"/>
-           </div>
-           <div>
-               <input type="submit" value="Login"/>
-           </div>
-       </form:form>
-    </div>
-</body>
+    <%@ include file="/WEB-INF/pages/header.html" %>
+    <body>
+        <div class="container">
+           <form:form cssClass="form-signin" method="post" modelAttribute="newUser" action="/spontan/user/new">
+               <h2 class="form-signin-heading">Please Register</h2>
+               <form:input cssClass="form-control top-radius" path="username" name="username" placeholder="Username"/>
+               <form:password cssClass="form-control no-radius" path="password" name="password" placeholder="Password"/>
+               <form:password cssClass="form-control no-radius" path="passwordConfirmation" name="passwordConfirmation" placeholder="Confirm password"/>
+               <form:input cssClass="form-control no-radius" path="nickname" name="nickname" placeholder="Nickname"/>
+               <form:input cssClass="form-control no-radius" path="phonenumber" name="phoneNumber" placeholder="Phone number"/>
+               <form:input cssClass="form-control bottom-radius" path="email" name="email" placeholder="Email address"/>
+               <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login"/>
+           </form:form>
+        </div>
+    </body>
 </html>
