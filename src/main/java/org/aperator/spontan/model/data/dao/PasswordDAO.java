@@ -14,7 +14,7 @@ public interface PasswordDAO {
 
     public Password findByUserId(Long userId);
 
-    public void update(Password password);
+    public Password update(Password password);
 
     public void delete(Password password);
 }

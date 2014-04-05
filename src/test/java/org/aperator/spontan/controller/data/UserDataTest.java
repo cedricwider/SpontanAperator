@@ -20,7 +20,7 @@ public class UserDataTest {
     public void shouldMapToCorrectFieldsOnCreation() {
         // given
         User user = new User();
-        user.setUserId(1l);
+        user.setId(1l);
         user.setPhoneNumber("PhoneNumber");
         user.setUsername("Username");
         Password password = new Password();
@@ -43,7 +43,7 @@ public class UserDataTest {
         assertEquals(userData.getNickname(), user.getNickName());
         assertEquals(userData.getPhoneNumber(), user.getPhoneNumber());
         assertEquals(userData.getUsername(), user.getUsername());
-        assertEquals(userData.getUserId(), user.getUserId());
+        assertEquals(userData.getUserId(), user.getId());
         assertEquals(userData.getEmail(), user.getEmail());
     }
 }

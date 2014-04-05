@@ -31,6 +31,7 @@ public class DatabaseUserTest {
     @Before
     public void setUp() {
         this.userManager = (UserManager) applicationContext.getBean("userManager");
+
     }
 
     @Test
@@ -40,7 +41,7 @@ public class DatabaseUserTest {
 
         User dbUser = userManager.findByUsername(username);
         assertNotNull(dbUser);
-        assertNotNull(dbUser.getUserId());
+        assertNotNull(dbUser.getId());
         assertEquals(username, dbUser.getUsername());
     }
 

@@ -9,17 +9,16 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <mvc:annotation-driven />
-    <context:component-scan base-package="org.aperator.spontan"/>
+    <import resource="classpath*:META-INF/spring/spring-jpa.xml" />
 
+    <context:component-scan base-package="org.aperator.spontan" />
+    <context:property-placeholder location="classpath*:META-INF/spring/*.properties" />
+
+    <mvc:annotation-driven />
+    <mvc:view-controller path="/index.jsp" />
     <mvc:resources mapping="/css/**" location="/WEB-INF/resources/css/" />
     <mvc:resources mapping="/js/**" location="/WEB-INF/resources/js/" />
     <mvc:resources mapping="/fonts/**" location="/WEB-INF/resources/fonts/" />
-
-    <import resource="resources/database/DataSource.xml"/>
-    <import resource="resources/database/Hibernate.xml" />
-    <import resource="resources/spring/User.xml"/>
-
 
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/pages/"/>
@@ -27,6 +26,8 @@
     </bean>
 
     <bean id="passwordManager" class="org.aperator.spontan.model.data.manager.impl.SimplePasswordManager"/>
+    <bean id="userManager" class="org.aperator.spontan.model.data.manager.impl.UserManagerImpl" />
+    <bean id="communityManager" class="org.aperator.spontan.model.data.manager.impl.CommunityManagerImpl" />
 
     <bean id="userDataConverter" class="org.aperator.spontan.controller.util.UserDataConverter">
         <constructor-arg ref="passwordEncryptor" />

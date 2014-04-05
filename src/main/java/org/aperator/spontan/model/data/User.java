@@ -1,5 +1,6 @@
 package org.aperator.spontan.model.data;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
@@ -7,15 +8,26 @@ import java.io.Serializable;
  * Date: 24/11/13
  * Time: 15:56
  */
+@Entity
 public class User implements Serializable {
 
-    private Long userId;
+    private Long id;
+    private Integer version;
     private String username;
     private String nickName;
     private String phoneNumber;
     private Password password;
     private String email;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getEmail() {
         return email;
     }
@@ -24,6 +36,7 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    @Column(name = "name")
     public String getUsername() {
         return username;
     }
@@ -40,6 +53,7 @@ public class User implements Serializable {
         this.nickName = nickName;
     }
 
+    @Column(name = "phone_number")
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -48,19 +62,24 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "password_id", referencedColumnName = "id")
     public Password getPassword() {
         return password;
     }
 
     public void setPassword(Password password) {
         this.password = password;
+    }
+
+    @Version
+    @Transient
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
     }
 }

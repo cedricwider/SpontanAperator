@@ -24,8 +24,9 @@ public class PasswordDAOImpl extends HibernateDaoSupport implements PasswordDAO 
     }
 
     @Override
-    public void update(Password password) {
+    public Password update(Password password) {
         getHibernateTemplate().update(password);
+        return password;
     }
 
     @Override

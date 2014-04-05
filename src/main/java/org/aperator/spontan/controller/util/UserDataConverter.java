@@ -34,7 +34,7 @@ public class UserDataConverter {
 
     public UserData toUserData(User user) {
         UserData userData = new UserData();
-        userData.setUserId(user.getUserId());
+        userData.setUserId(user.getId());
         userData.setUsername(user.getUsername());
         userData.setNickname(user.getNickName());
         userData.setPhoneNumber(user.getPhoneNumber());
