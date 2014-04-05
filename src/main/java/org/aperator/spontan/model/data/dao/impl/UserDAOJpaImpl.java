@@ -1,7 +1,8 @@
-package org.aperator.spontan.model.data.dao;
+package org.aperator.spontan.model.data.dao.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.aperator.spontan.model.data.User;
+import org.aperator.spontan.model.data.dao.UserDAO;
 import org.aperator.spontan.model.data.manager.impl.GenericDaoJpa;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
