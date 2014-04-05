@@ -39,6 +39,9 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showUser(HttpSession session) {
         User user = (User) session.getAttribute("user");
+        if ( user == null ) {
+            return displayLoginPage();
+        }
         return new ModelAndView("profile", "userData", userDataConverter.toUserData(user));
     }
 
