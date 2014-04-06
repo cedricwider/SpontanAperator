@@ -32,8 +32,8 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="" />
         <datasource-mapping>
-          <factory-entry name="aperatorPersistenceUnit" />
-          <factory-entry name="entityManagerFactory" value="dataSource" />
+          <factory-entry name="aperatorPersistenceUnit" value="dd5a078b-6060-4285-b811-34629af6fce2" />
+          <factory-entry name="entityManagerFactory" value="dd5a078b-6060-4285-b811-34629af6fce2" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
       </configuration>

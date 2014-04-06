@@ -5,7 +5,6 @@ import org.aperator.spontan.model.data.dao.UserDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -22,7 +21,6 @@ import static junit.framework.Assert.*;
 @ContextConfiguration("file:src/test/resources/JUnit_Spring.xml")
 public class DatabaseUserTest {
 
-    @Autowired private ApplicationContext applicationContext;
     @Autowired private UserDAO userDAO;
 
 

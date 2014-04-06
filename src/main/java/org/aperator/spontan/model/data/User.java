@@ -2,6 +2,7 @@ package org.aperator.spontan.model.data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * User: cedster
@@ -12,12 +13,12 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     private Long id;
-    private Integer version;
     private String username;
     private String nickName;
     private String phoneNumber;
     private Password password;
     private String email;
+    private List<Event> events;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,13 +74,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @Version
-    @Transient
-    public Integer getVersion() {
-        return version;
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants")
+    public List<Event> getEvents() {
+        return events;
     }
 
-    public void setVersion(Integer version) {
-        this.version = version;
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 }

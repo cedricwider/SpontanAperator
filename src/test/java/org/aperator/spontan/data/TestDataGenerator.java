@@ -1,7 +1,12 @@
 package org.aperator.spontan.data;
 
+import org.aperator.spontan.model.data.Event;
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
+
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,5 +25,20 @@ public class TestDataGenerator {
         myPassword.setPasswordHash("JUnitPassword");
         myUser.setPassword(myPassword);
         return myUser;
+    }
+
+    public static Event event() {
+        Event event = new Event();
+        event.setOwner(user("Owner"));
+        List<User> participants = new LinkedList<User>();
+        for (int i = 0; i < 10; i++) {
+            participants.add(user("Participant" + i));
+        }
+        event.setParticipants(participants);
+        event.setDate(new Date());
+        event.setDescription("JUnit_Description");
+        event.setLocation("JUnit_Location");
+        event.setMotto("JUnit_Motto");
+        return event;
     }
 }
