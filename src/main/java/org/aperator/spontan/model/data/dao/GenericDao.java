@@ -1,4 +1,4 @@
-package org.aperator.spontan.model.data.manager.impl;
+package org.aperator.spontan.model.data.dao;
 
 import java.util.List;
 

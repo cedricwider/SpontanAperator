@@ -1,7 +1,6 @@
 package org.aperator.spontan.model.data.dao;
 
 import org.aperator.spontan.model.data.User;
-import org.aperator.spontan.model.data.manager.impl.GenericDao;
 
 import java.util.List;
 

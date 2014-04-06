@@ -3,8 +3,8 @@ package org.aperator.spontan.controller;
 import org.aperator.spontan.controller.data.LoginRequestData;
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
+import org.aperator.spontan.model.data.dao.UserDAO;
 import org.aperator.spontan.model.data.manager.PasswordEncryptor;
-import org.aperator.spontan.model.data.manager.UserManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +29,8 @@ public class LoginTest extends AbstractWebPageTest {
 
     public static final String LOGIN_URL = "/user/login";
 
-    @Autowired
-    private PasswordEncryptor passwordEncryptor;
+    @Autowired private PasswordEncryptor passwordEncryptor;
+    @Autowired UserDAO userDAO;
 
     @Test
     public void loginPageShouldBeReachable() throws Exception {
@@ -82,8 +82,7 @@ public class LoginTest extends AbstractWebPageTest {
     }
 
     private void createValidUserInDatabase() {
-        UserManager userManager = (UserManager) this.applicationContext.getBean("userManager");
-        userManager.create(generateValidUser());
+        userDAO.save(generateValidUser());
     }
 
     private User generateValidUser() {

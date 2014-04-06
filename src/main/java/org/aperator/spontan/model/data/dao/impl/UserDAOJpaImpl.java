@@ -3,7 +3,6 @@ package org.aperator.spontan.model.data.dao.impl;
 import org.apache.commons.collections.CollectionUtils;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.dao.UserDAO;
-import org.aperator.spontan.model.data.manager.impl.GenericDaoJpa;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,6 @@ import java.util.List;
  * User: cedster
  * Date: 30/11/13
  * Time: 01:34
- * To change this template use File | Settings | File Templates.
  */
 @Repository("userDao")
 public class UserDAOJpaImpl extends GenericDaoJpa<User> implements UserDAO {

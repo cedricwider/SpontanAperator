@@ -5,8 +5,8 @@ import org.aperator.spontan.controller.data.LoginRequestData;
 import org.aperator.spontan.controller.data.UserError;
 import org.aperator.spontan.controller.util.UserDataConverter;
 import org.aperator.spontan.model.data.User;
+import org.aperator.spontan.model.data.dao.UserDAO;
 import org.aperator.spontan.model.data.manager.PasswordManager;
-import org.aperator.spontan.model.data.manager.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,7 +34,7 @@ public class UserController {
     UserDataConverter userDataConverter;
 
     @Autowired
-    private UserManager userManager;
+    private UserDAO userDao;
 
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView showUser(HttpSession session) {
@@ -54,7 +54,7 @@ public class UserController {
     public ModelAndView doLogin(@ModelAttribute("loginUser") LoginRequestData loginUser, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException {
         ModelAndView modelAndView;
         if (this.passwordManager.isValidPassword(loginUser.getUsername(), loginUser.getPassword())) {
-            User user = this.userManager.findByUsername(loginUser.getUsername());
+            User user = this.userDao.findByUsername(loginUser.getUsername());
             session.setAttribute("user", user);
             modelAndView = new ModelAndView("profile", "userData", userDataConverter.toUserData(user));
         } else {
@@ -73,7 +73,7 @@ public class UserController {
     public ModelAndView doRegisterUser(@ModelAttribute("newUser") RegisterUserRequestData registerData, HttpSession session, HttpServletResponse response) throws NoSuchAlgorithmException {
         ModelAndView modelAndView = new ModelAndView();
         String username = registerData.getUsername();
-        if (this.userManager.findByUsername(username) != null) {
+        if (this.userDao.findByUsername(username) != null) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
             modelAndView.setViewName("register");
             return modelAndView;
@@ -86,7 +86,7 @@ public class UserController {
         }
 
         User user = userDataConverter.fromRegisterUserRequestData(registerData);
-        this.userManager.create(user);
+        this.userDao.save(user);
         session.setAttribute("user", user);
 
         modelAndView.setViewName("profile");

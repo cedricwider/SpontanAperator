@@ -2,14 +2,16 @@ package org.aperator.spontan.data;
 
 import org.aperator.spontan.model.data.Community;
 import org.aperator.spontan.model.data.User;
-import org.aperator.spontan.model.data.manager.CommunityManager;
-import org.junit.Ignore;
+import org.aperator.spontan.model.data.dao.CommunityDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,17 +25,23 @@ import org.springframework.test.context.web.WebAppConfiguration;
 public class CommunityTest {
 
     @Autowired
-    private CommunityManager communityManager;
+    private CommunityDAO communityDAO;
 
     @Test
-    @Ignore("TODO ced: Make sure to refactor other tests first")
     public void creatingCommunitiesShouldWork() {
-        User owner = new User();
-        owner.setEmail("owner@email.com");
-        owner.setId(1l);
+        User owner = TestDataGenerator.user("owner");
+        List<User> members = new LinkedList<User>();
+        for ( int i = 0; i < 10 ; i++ ) {
+            members.add(TestDataGenerator.user("member" + i));
+        }
         Community community = new Community();
+        community.setName("JUnit_Name");
         community.setOwner(owner);
-        this.communityManager.save(community);
+        community.setMembers(members);
+        community.setDescription("JUnit_Description");
+        this.communityDAO.save(community);
+
+        // assertNotNull(this.communityDAO.findByOwnerIdAndName(owner.getId(), "JUnit_Name"));
     }
 
     @Test

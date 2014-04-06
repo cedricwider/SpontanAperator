@@ -26,8 +26,6 @@
     </bean>
 
     <bean id="passwordManager" class="org.aperator.spontan.model.data.manager.impl.SimplePasswordManager"/>
-    <bean id="userManager" class="org.aperator.spontan.model.data.manager.impl.UserManagerImpl" />
-    <bean id="communityManager" class="org.aperator.spontan.model.data.manager.impl.CommunityManagerImpl" />
 
     <bean id="userDataConverter" class="org.aperator.spontan.controller.util.UserDataConverter">
         <constructor-arg ref="passwordEncryptor" />

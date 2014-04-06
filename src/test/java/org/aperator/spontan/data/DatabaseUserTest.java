@@ -1,9 +1,7 @@
 package org.aperator.spontan.data;
 
-import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
-import org.aperator.spontan.model.data.manager.UserManager;
-import org.junit.Before;
+import org.aperator.spontan.model.data.dao.UserDAO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +22,16 @@ import static junit.framework.Assert.*;
 @ContextConfiguration("file:src/test/resources/JUnit_Spring.xml")
 public class DatabaseUserTest {
 
-    @Autowired
-    private ApplicationContext applicationContext;
-    private UserManager userManager;
+    @Autowired private ApplicationContext applicationContext;
+    @Autowired private UserDAO userDAO;
 
-    @Before
-    public void setUp() {
-        this.userManager = (UserManager) applicationContext.getBean("userManager");
-
-    }
 
     @Test
     public void createUserShouldWork() {
         String username = "JUnit_CreateUser_Username";
         createUserInDatabaseWithUsername(username);
 
-        User dbUser = userManager.findByUsername(username);
+        User dbUser = userDAO.findByUsername(username);
         assertNotNull(dbUser);
         assertNotNull(dbUser.getId());
         assertEquals(username, dbUser.getUsername());
@@ -49,11 +41,11 @@ public class DatabaseUserTest {
     public void updateUserShouldWork() {
         String username = "JUnit_UpdateUser_Username";
         createUserInDatabaseWithUsername(username);
-        User user = this.userManager.findByUsername(username);
+        User user = this.userDAO.findByUsername(username);
         user.setNickName("updated");
-        this.userManager.update(user);
+        this.userDAO.update(user);
 
-        user = this.userManager.findByUsername(username);
+        user = this.userDAO.findByUsername(username);
         assertEquals("updated", user.getNickName());
     }
 
@@ -62,21 +54,14 @@ public class DatabaseUserTest {
         String username = "JUnit_DeleteUser_Username";
         createUserInDatabaseWithUsername(username);
 
-        User user = this.userManager.findByUsername(username);
-        this.userManager.delete(user);
+        User user = this.userDAO.findByUsername(username);
+        this.userDAO.delete(user);
 
-        assertNull(this.userManager.findByUsername(username));
+        assertNull(this.userDAO.findByUsername(username));
     }
 
     private void createUserInDatabaseWithUsername(String username) {
-        User myUser = new User();
-        myUser.setEmail(username+"@unit.com");
-        myUser.setPhoneNumber("+41 79 136 75 01");
-        myUser.setUsername(username);
-        myUser.setNickName("JUnitNickname");
-        Password myPassword = new Password();
-        myPassword.setPasswordHash("JUnitPassword");
-        myUser.setPassword(myPassword);
-        userManager.create(myUser);
+        User myUser = TestDataGenerator.user(username);
+        userDAO.save(myUser);
     }
 }

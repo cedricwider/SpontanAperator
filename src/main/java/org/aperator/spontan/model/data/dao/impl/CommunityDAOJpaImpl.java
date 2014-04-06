@@ -2,7 +2,6 @@ package org.aperator.spontan.model.data.dao.impl;
 
 import org.aperator.spontan.model.data.Community;
 import org.aperator.spontan.model.data.dao.CommunityDAO;
-import org.aperator.spontan.model.data.manager.impl.GenericDaoJpa;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

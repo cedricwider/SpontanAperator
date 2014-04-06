@@ -1,5 +1,6 @@
-package org.aperator.spontan.model.data.manager.impl;
+package org.aperator.spontan.model.data.dao.impl;
 
+import org.aperator.spontan.model.data.dao.GenericDao;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
