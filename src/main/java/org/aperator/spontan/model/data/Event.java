@@ -1,6 +1,7 @@
 package org.aperator.spontan.model.data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Time: 15:33
  */
 @Entity
-public class Event {
+public class Event implements Serializable {
 
     private Long id;
     private Date date;

@@ -1,5 +1,7 @@
 package org.aperator.spontan.model.data;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -64,6 +66,7 @@ public class User implements Serializable {
     }
 
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "password_id", referencedColumnName = "id")
     public Password getPassword() {
@@ -74,6 +77,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants")
     public List<Event> getEvents() {
         return events;
