@@ -33,6 +33,8 @@ public class UserDataConverter {
     }
 
     public UserData toUserData(User user) {
+        if (user == null) return null;
+
         UserData userData = new UserData();
         userData.setUserId(user.getId());
         userData.setUsername(user.getUsername());
