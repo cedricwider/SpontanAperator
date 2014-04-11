@@ -1,6 +1,7 @@
 package org.aperator.spontan.controller.rest;
 
 import org.aperator.spontan.controller.AbstractWebPageTest;
+import org.aperator.spontan.controller.data.EventData;
 import org.aperator.spontan.data.TestDataGenerator;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.dao.UserDAO;
@@ -29,10 +30,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(value = "file:src/test/resources/JUnit_Spring.xml")
-@Ignore("This test can't be run together with the other tests...!") // TODO: ced - make this work, please
+// @Ignore("This test can't be run together with the other tests...!") // TODO: ced - make this work, please
 public class RestResourcesTest extends AbstractWebPageTest {
 
     private static final String USER_URL = "/rest/user";
+    private static final String EVENTS_URL = "/rest/event";
 
     @Autowired UserDAO userDAO;
     @Autowired SecurePasswordEncryptor passwordEncryptor;
@@ -97,6 +99,56 @@ public class RestResourcesTest extends AbstractWebPageTest {
         // then
         .andExpect(status().isOk());
         assertNull(userDAO.findById(userId));
+    }
+
+    @Test
+    public void eventsShouldBeListed() throws Exception {
+        // given
+        doLogin();
+
+        // when
+        mockMvc.perform(get(EVENTS_URL))
+
+        //then
+        .andExpect(status().isOk());
+    }
+
+    @Test
+    public void eventsCanBeQueriedByOwnerId() throws Exception {
+        // given
+        doLogin();
+
+        // when
+        mockMvc.perform(get(EVENTS_URL + "/q?owner=" + USER.getId()))
+
+        // then
+        .andExpect(status().isOk());
+    }
+
+    @Test
+    public void eventsCanBeQueriedByParticipantId() throws Exception {
+        // given
+        doLogin();
+
+        // when
+        mockMvc.perform(get(EVENTS_URL + "/q?participant=" + USER.getId()))
+
+        //then
+        .andExpect(status().isOk());
+    }
+
+    @Test
+    public void eventsCanBeCreated() throws Exception {
+        // given
+        doLogin();
+        EventData eventData = TestDataGenerator.eventData(null);
+        String eventDataAsString = new ObjectMapper().writeValueAsString(eventData);
+
+        // when
+        mockMvc.perform(post(EVENTS_URL).content(eventDataAsString))
+
+        //then
+        .andExpect(status().isOk());
     }
 
     private void doLogin() throws Exception {

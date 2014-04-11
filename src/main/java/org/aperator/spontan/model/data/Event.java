@@ -50,7 +50,7 @@ public class Event implements Serializable {
         this.date = date;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "Event2Users",
             joinColumns = { @JoinColumn(name = "event_id") },
             inverseJoinColumns = { @JoinColumn(name = "user_id")} )

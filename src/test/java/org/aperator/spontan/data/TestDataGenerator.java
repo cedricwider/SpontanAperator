@@ -1,9 +1,11 @@
 package org.aperator.spontan.data;
 
+import org.aperator.spontan.controller.data.EventData;
 import org.aperator.spontan.model.data.Event;
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,5 +42,21 @@ public class TestDataGenerator {
         event.setLocation("JUnit_Location");
         event.setMotto("JUnit_Motto");
         return event;
+    }
+
+    public static EventData eventData(Long id) {
+        EventData eventData = new EventData();
+        eventData.setId(id);
+        eventData.setOwnerId(1l);
+        eventData.setMotto("JUnit_Motto");
+        eventData.setLocation("JUnit_Location");
+        eventData.setDate(new Date());
+        eventData.setDescription("JUnit_Description");
+        List<Long> participantIds = new ArrayList<Long>();
+        participantIds.add(1l);
+        participantIds.add(2l);
+        participantIds.add(3l);
+        eventData.setParticipantIds(participantIds);
+        return eventData;
     }
 }

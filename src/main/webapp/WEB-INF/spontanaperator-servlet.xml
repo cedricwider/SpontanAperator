@@ -66,7 +66,7 @@
 
     <bean id="passwordManager" class="org.aperator.spontan.model.data.manager.impl.SimplePasswordManager"/>
 
-    <bean id="userDataConverter" class="org.aperator.spontan.controller.util.UserDataConverter">
+    <bean id="userDataConverter" class="org.aperator.spontan.controller.data.mapper.UserDataMapper">
         <constructor-arg ref="passwordEncryptor" />
     </bean>
 

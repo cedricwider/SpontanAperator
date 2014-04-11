@@ -1,4 +1,4 @@
-package org.aperator.spontan.controller;
+package org.aperator.spontan.controller.data;
 
 /**
  * User: cedster

@@ -1,6 +1,6 @@
 package org.aperator.spontan.controller.data;
 
-import org.aperator.spontan.controller.util.UserDataConverter;
+import org.aperator.spontan.controller.data.mapper.UserDataMapper;
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.manager.PasswordEncryptor;
@@ -28,7 +28,7 @@ public class UserDataTest {
         user.setPassword(password);
         user.setNickName("Nickname");
         user.setEmail("Email");
-        UserDataConverter userDataConverter = new UserDataConverter(new PasswordEncryptor() {
+        UserDataMapper userDataConverter = new UserDataMapper(new PasswordEncryptor() {
             @Override
             public String encrypt(String password) {
                 return password;

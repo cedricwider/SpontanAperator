@@ -2,8 +2,9 @@ package org.aperator.spontan.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.aperator.spontan.controller.data.LoginRequestData;
+import org.aperator.spontan.controller.data.RegisterUserRequestData;
 import org.aperator.spontan.controller.data.UserError;
-import org.aperator.spontan.controller.util.UserDataConverter;
+import org.aperator.spontan.controller.data.mapper.UserDataMapper;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.dao.UserDAO;
 import org.aperator.spontan.model.data.manager.PasswordManager;
@@ -31,7 +32,7 @@ public class UserController {
     private PasswordManager passwordManager;
 
     @Autowired
-    UserDataConverter userDataConverter;
+    UserDataMapper userDataConverter;
 
     @Autowired
     private UserDAO userDao;
@@ -64,6 +65,12 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    public ModelAndView doLogout(HttpSession session) {
+        session.removeAttribute("user");
+        return displayLoginPage();
+    }
+
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public ModelAndView registerUser() {
         return new ModelAndView("register", "newUser", new RegisterUserRequestData());
@@ -85,7 +92,7 @@ public class UserController {
             return modelAndView;
         }
 
-        User user = userDataConverter.fromRegisterUserRequestData(registerData);
+        User user = userDataConverter.toUser(registerData);
         this.userDao.save(user);
         session.setAttribute("user", user);
 

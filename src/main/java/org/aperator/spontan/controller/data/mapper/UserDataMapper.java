@@ -1,6 +1,6 @@
-package org.aperator.spontan.controller.util;
+package org.aperator.spontan.controller.data.mapper;
 
-import org.aperator.spontan.controller.RegisterUserRequestData;
+import org.aperator.spontan.controller.data.RegisterUserRequestData;
 import org.aperator.spontan.controller.data.UserData;
 import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
@@ -12,15 +12,15 @@ import org.aperator.spontan.model.data.manager.PasswordEncryptor;
  * Date: 12/12/13
  * Time: 21:07
  */
-public class UserDataConverter {
+public class UserDataMapper {
 
     private PasswordEncryptor passwordEncryptor;
 
-    public UserDataConverter(PasswordEncryptor passwordEncryptor) {
+    public UserDataMapper(PasswordEncryptor passwordEncryptor) {
         this.passwordEncryptor = passwordEncryptor;
     }
 
-    public User fromRegisterUserRequestData(RegisterUserRequestData registerData) {
+    public User toUser(RegisterUserRequestData registerData) {
         User user = new User();
         user.setNickName(registerData.getNickname());
         Password password = new Password();

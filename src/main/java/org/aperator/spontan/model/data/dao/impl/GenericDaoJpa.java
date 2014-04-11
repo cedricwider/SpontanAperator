@@ -15,7 +15,7 @@ import java.util.List;
  * Time: 21:47
  */
 @Transactional(propagation= Propagation.REQUIRED)
-public class GenericDaoJpa<T> implements GenericDao<T> {
+public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 
     private final Class<T> type;
 
@@ -40,24 +40,28 @@ public class GenericDaoJpa<T> implements GenericDao<T> {
     @Override
     @Transactional(readOnly = true)
     public List<T> getAll() {
-        String query = "select o from " + type.getName() + "o";
+        String query = "from " + type.getName();
         return entityManager.createQuery(query).getResultList();
     }
 
     @Override
     public T update(T object) {
-        return entityManager.merge(object);
+        return object == null ? null : entityManager.merge(object);
     }
 
     @Override
     public void save(T object) {
-        entityManager.persist(object);
+        if (object != null) {
+            entityManager.persist(object);
+        }
     }
 
     @Override
     public void delete(T object) {
-        object = entityManager.merge(object);
-        entityManager.remove(object);
+        if (object != null) {
+            object = entityManager.merge(object);
+            entityManager.remove(object);
+        }
     }
 
 }
