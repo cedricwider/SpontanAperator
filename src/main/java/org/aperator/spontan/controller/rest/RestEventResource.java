@@ -70,7 +70,8 @@ public class RestEventResource {
         LOGGER.debug(String.format("POST-Data: %s", eventAsString));
         EventData eventData = new ObjectMapper().readValue(eventAsString, EventData.class);
         Event event = mapper.toEvent(eventData);
-        eventDAO.save(event);
+        // eventDAO.save(event);
+        userDAO.save(event.getOwner());
         return mapper.fromEvent(event);
     }
 

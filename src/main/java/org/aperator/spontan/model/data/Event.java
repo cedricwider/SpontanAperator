@@ -33,7 +33,7 @@ public class Event implements Serializable {
         this.id = id;
     }
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "owner_id")
     public User getOwner() {
         return owner;
@@ -41,7 +41,7 @@ public class Event implements Serializable {
 
     public void setOwner(User owner) {
         this.owner = owner;
-        if (!owner.getOwnedEvents().contains(this)) {
+        if (owner != null && !owner.getOwnedEvents().contains(this)) {
             owner.addOwnedEvent(this);
         }
     }
@@ -54,7 +54,7 @@ public class Event implements Serializable {
         this.date = date;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "Event2Users",
             joinColumns = { @JoinColumn(name = "event_id") },
             inverseJoinColumns = { @JoinColumn(name = "user_id")} )

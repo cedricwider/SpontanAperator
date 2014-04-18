@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PersistenceContextType;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
         this.type = type;
     }
 
-    @PersistenceContext
+    @PersistenceContext(type = PersistenceContextType.EXTENDED)
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
@@ -70,7 +71,7 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
     @Override
     @Transactional
     public void delete(T object) {
-        if (object != null) {
+        if ( object != null ) {
             object = entityManager.merge(object);
             entityManager.remove(object);
         }

@@ -44,7 +44,7 @@ public class RestResourcesTest extends AbstractWebPageTest {
     @Before
     public void storeUserInDatabase() {
         if (USER == null) {
-            User user = userDAO.findByUsername("ValudJUnitUsername");
+            User user = userDAO.findByUsername("ValidJUnitUsername");
             if (user != null) {
                 USER = user;
             } else {
@@ -142,6 +142,7 @@ public class RestResourcesTest extends AbstractWebPageTest {
         // given
         doLogin();
         EventData eventData = TestDataGenerator.eventData(null);
+        eventData.setOwnerId(USER.getId());
         String eventDataAsString = new ObjectMapper().writeValueAsString(eventData);
 
         // when

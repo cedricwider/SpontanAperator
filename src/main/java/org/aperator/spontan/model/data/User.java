@@ -1,7 +1,5 @@
 package org.aperator.spontan.model.data;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -69,7 +67,6 @@ public class User implements Serializable {
     }
 
 
-    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "password_id", referencedColumnName = "id")
     public Password getPassword() {
@@ -80,8 +77,7 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    @JsonIgnore
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "participants", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "participants", cascade = CascadeType.MERGE)
     public List<Event> getEvents() {
         if (events == null) {
             events = new ArrayList<>();
@@ -101,7 +97,7 @@ public class User implements Serializable {
         eventList.add(event);
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Event> getOwnedEvents() {
         if (ownedEvents == null) {
             ownedEvents = new LinkedList<>();

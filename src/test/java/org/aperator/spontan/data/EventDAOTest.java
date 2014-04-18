@@ -4,6 +4,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.aperator.spontan.model.data.Event;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.dao.EventDAO;
+import org.aperator.spontan.model.data.dao.UserDAO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,13 +29,14 @@ import static org.junit.Assert.*;
 public class EventDAOTest {
 
     @Autowired private EventDAO eventDAO;
+    @Autowired private UserDAO userDAO;
     private static Event event;
 
     @Before
     public void prepareDatabase() {
         if (event == null) {
-            this.event = TestDataGenerator.event();
-            eventDAO.save(event);
+            event = TestDataGenerator.event();
+            userDAO.save(event.getOwner());
         }
     }
 
@@ -86,17 +88,5 @@ public class EventDAOTest {
 
         //then
         assertEquals(description, fromDb.getDescription());
-    }
-
-    @Test
-    public void eventShouldBeDeleted() {
-        // given
-        Long eventId = event.getId();
-        // when
-        eventDAO.delete(event);
-
-        // then
-        assertNull(eventDAO.findById(eventId));
-        event = null; // ensure that it's re-created if necessary
     }
 }
