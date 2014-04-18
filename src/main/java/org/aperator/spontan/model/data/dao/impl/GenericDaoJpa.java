@@ -21,7 +21,7 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
 
     protected EntityManager entityManager;
 
-    public GenericDaoJpa(Class<T> type) {
+    protected GenericDaoJpa(Class<T> type) {
         super();
         this.type = type;
     }
@@ -29,6 +29,10 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
     @PersistenceContext
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
+    }
+
+    public EntityManager getEntityManager() {
+        return this.entityManager;
     }
 
     @Override
@@ -44,19 +48,27 @@ public abstract class GenericDaoJpa<T> implements GenericDao<T> {
         return entityManager.createQuery(query).getResultList();
     }
 
+
     @Override
+    @Transactional
     public T update(T object) {
         return object == null ? null : entityManager.merge(object);
     }
 
     @Override
+    @Transactional
     public void save(T object) {
-        if (object != null) {
+        if (object == null) return;
+
+        if (entityManager.contains(object)) {
+            entityManager.merge(object);
+        } else {
             entityManager.persist(object);
         }
     }
 
     @Override
+    @Transactional
     public void delete(T object) {
         if (object != null) {
             object = entityManager.merge(object);

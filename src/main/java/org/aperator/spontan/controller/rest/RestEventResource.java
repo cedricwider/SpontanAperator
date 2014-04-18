@@ -33,17 +33,18 @@ public class RestEventResource {
     @Autowired
     private UserDAO userDAO;
 
+    @Autowired
     private EventDataMapper mapper;
 
     @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody List<EventData> getAllEvents() {
         List<Event> events = eventDAO.getAll();
-        return mapper().fromEvent(events);
+        return mapper.fromEvent(events);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody EventData getEventById(Long id) {
-        return mapper().fromEvent(eventDAO.findById(id));
+        return mapper.fromEvent(eventDAO.findById(id));
     }
 
     @RequestMapping(value = "/q",
@@ -52,7 +53,7 @@ public class RestEventResource {
     public @ResponseBody List<EventData> queryEventsByOwnerId(@PathVariable Long ownerId) {
         User owner = userDAO.findById(ownerId);
         List<Event> events = eventDAO.findByOwner(owner);
-        return mapper().fromEvent(events);
+        return mapper.fromEvent(events);
     }
 
     @RequestMapping(value = "/q",
@@ -61,35 +62,28 @@ public class RestEventResource {
     public @ResponseBody List<EventData> queryEventsByParticipantId(@PathVariable Long participantId) {
         User participant = userDAO.findById(participantId);
         List<Event> events = eventDAO.findByParticipant(participant);
-        return mapper().fromEvent(events);
+        return mapper.fromEvent(events);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody EventData createEvent(@RequestBody String eventAsString) throws IOException {
         LOGGER.debug(String.format("POST-Data: %s", eventAsString));
-        EventData eventdata = new ObjectMapper().readValue(eventAsString, EventData.class);
-        Event event = mapper().toEvent(eventdata);
+        EventData eventData = new ObjectMapper().readValue(eventAsString, EventData.class);
+        Event event = mapper.toEvent(eventData);
         eventDAO.save(event);
-        return mapper().fromEvent(event);
+        return mapper.fromEvent(event);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public @ResponseBody EventData updateEvent(@PathVariable Long id, @RequestBody String eventAsString) throws IOException {
         LOGGER.debug(String.format("POST-Data: %s", eventAsString));
         EventData eventData = new ObjectMapper().readValue(eventAsString, EventData.class);
-        Event event = mapper().toEvent(eventData);
+        Event event = mapper.toEvent(eventData);
         if (!id.equals(event.getId())) {
             throw new IllegalArgumentException("Can't change event's id");
         }
 
         eventDAO.update(event);
-        return mapper().fromEvent(event);
-    }
-
-    private EventDataMapper mapper() {
-        if (this.mapper == null) {
-            this.mapper = new EventDataMapper(this.userDAO);
-        }
-        return this.mapper;
+        return mapper.fromEvent(event);
     }
 }

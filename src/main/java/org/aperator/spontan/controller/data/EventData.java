@@ -1,6 +1,7 @@
 package org.aperator.spontan.controller.data;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -18,6 +19,10 @@ public class EventData {
     private String location;
     private String motto;
     private String description;
+
+    public EventData() {
+        this.participantIds = new LinkedList<>();
+    }
 
     public Long getId() {
         return id;

@@ -3,6 +3,7 @@ package org.aperator.spontan.model.data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -23,7 +24,7 @@ public class Event implements Serializable {
     private String description;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getId() {
         return id;
     }
@@ -32,14 +33,17 @@ public class Event implements Serializable {
         this.id = id;
     }
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "owner_id")
     public User getOwner() {
         return owner;
     }
 
     public void setOwner(User owner) {
         this.owner = owner;
+        if (!owner.getOwnedEvents().contains(this)) {
+            owner.addOwnedEvent(this);
+        }
     }
 
     public Date getDate() {
@@ -50,17 +54,21 @@ public class Event implements Serializable {
         this.date = date;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "Event2Users",
             joinColumns = { @JoinColumn(name = "event_id") },
             inverseJoinColumns = { @JoinColumn(name = "user_id")} )
     public List<User> getParticipants() {
+        if (participants == null) {
+            participants = new LinkedList<>();
+        }
         return participants;
     }
 
     public void setParticipants(List<User> participants) {
         this.participants = participants;
     }
+
 
     public String getLocation() {
         return location;
@@ -84,5 +92,17 @@ public class Event implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void addParticipant(User participant) {
+        if (participant == null) return;
+
+        List<User> participants = this.getParticipants();
+        if (!participants.contains(participant)) {
+            participants.add(participant);
+            if (!participant.getEvents().contains(this)) {
+                participant.addEvent(this);
+            }
+        }
     }
 }

@@ -36,4 +36,9 @@ public class EventDAOJpaImpl extends GenericDaoJpa<Event> implements EventDAO {
         query.setParameter("participant", participant);
         return query.getResultList();
     }
+
+    @Override
+    public void save(Event object) {
+        super.save(object);
+    }
 }

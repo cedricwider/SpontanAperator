@@ -64,10 +64,15 @@
         </property>
     </bean>
 
+    <!-- Internal Utility objects -->
     <bean id="passwordManager" class="org.aperator.spontan.model.data.manager.impl.SimplePasswordManager"/>
 
     <bean id="userDataConverter" class="org.aperator.spontan.controller.data.mapper.UserDataMapper">
         <constructor-arg ref="passwordEncryptor" />
+    </bean>
+
+    <bean id="eventMapper" class="org.aperator.spontan.controller.data.mapper.EventDataMapper">
+        <constructor-arg ref="userDao"/>
     </bean>
 
     <bean id="passwordEncryptor" class="org.aperator.spontan.model.data.manager.impl.SecurePasswordEncryptor">

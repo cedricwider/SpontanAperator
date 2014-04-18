@@ -41,4 +41,15 @@ public class UserDAOJpaImpl extends GenericDaoJpa<User> implements UserDAO {
     public List<User> findByCommunityId(Long communityId) {
         throw new IllegalStateException("Method not implemented yet");
     }
+
+    @Override
+    public void save(User object) {
+        if (object == null) return;
+
+        if (object.getId() == null) {
+            super.save(object);
+        } else {
+            super.update(object);
+        }
+    }
 }

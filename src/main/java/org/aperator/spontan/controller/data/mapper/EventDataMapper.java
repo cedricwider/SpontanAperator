@@ -32,12 +32,9 @@ public class EventDataMapper {
         event.setMotto(eventdata.getMotto());
         event.setDescription(eventdata.getDescription());
         event.setDate(eventdata.getDate());
-        List<User> participants = new LinkedList<>();
         for (Long participantId : eventdata.getParticipantIds()) {
-            participants.add(userById(participantId));
+            event.addParticipant(userById(participantId));
         }
-        event.setParticipants(participants);
-
         return event;
     }
 
