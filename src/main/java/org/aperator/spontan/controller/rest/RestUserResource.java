@@ -1,6 +1,8 @@
 package org.aperator.spontan.controller.rest;
 
 import com.sun.servicetag.UnauthorizedAccessException;
+import org.aperator.spontan.controller.data.UserData;
+import org.aperator.spontan.controller.data.mapper.UserDataMapper;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.dao.UserDAO;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,30 +25,29 @@ import java.io.IOException;
 public class RestUserResource {
 
     @Autowired private UserDAO userDAO;
-
+    @Autowired private UserDataMapper mapper;
 
     @RequestMapping(value = "/{userid}", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public User getUser(@PathVariable Long userid, HttpSession session) {
+    public @ResponseBody UserData getUser(@PathVariable Long userid, HttpSession session) {
         if ( session.getAttribute("user") == null ) {
             throw new UnauthorizedAccessException("Please log in first");
         }
-        return userDAO.findById(userid);
+        User user = userDAO.findById(userid);
+        return mapper.toUserData(user);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    @ResponseBody
-    public User getCurrentUser(HttpSession session) {
-        return (User) session.getAttribute("user");
+    public @ResponseBody List<UserData> getCurrentUser(HttpSession session) {
+        List<User> allUsers = userDAO.getAll();
+        return mapper.toUserData(allUsers);
     }
 
     @RequestMapping(value="/{userid}", method = RequestMethod.PUT)
-    @ResponseBody
-    public User updateUser(@PathVariable Long userid, @RequestBody String userAsString) throws IOException {
-        User user = new ObjectMapper().readValue(userAsString, User.class);
+    public @ResponseBody UserData updateUser(@PathVariable Long userid, @RequestBody String userAsString) throws IOException {
+        UserData userData = new ObjectMapper().readValue(userAsString, UserData.class);
         User userFromDb = userDAO.findById(userid);
-        user = mergeUserFrom(user, userFromDb);
-        return userDAO.update(user);
+        User user = mergeUserFrom(userData, userFromDb);
+        return mapper.toUserData(userDAO.update(user));
     }
 
     @RequestMapping(value = "{userid}", method = RequestMethod.DELETE)
@@ -53,12 +55,13 @@ public class RestUserResource {
         userDAO.delete(userDAO.findById(userid));
     }
 
-    private User mergeUserFrom(User fromUser, User toUser) {
-        toUser.setNickName(fromUser.getNickName());
-        toUser.setEmail(fromUser.getEmail());
-        toUser.setPhoneNumber(fromUser.getPhoneNumber());
-        toUser.setUsername(fromUser.getUsername());
-        return toUser;
+    private User mergeUserFrom(UserData userData, User user) {
+        user.setNickName(userData.getNickname());
+        user.setFirstname(userData.getFirstname());
+        user.setLastname(userData.getLastname());
+        user.setEmail(userData.getEmail());
+        user.setPhoneNumber(userData.getPhoneNumber());
+        return user;
     }
 
 }

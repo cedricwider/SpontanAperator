@@ -65,6 +65,18 @@ public class UserController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public ModelAndView showProfile(HttpSession session, HttpServletResponse response) {
+        ModelAndView modelAndView;
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            modelAndView = new ModelAndView("profile", "userData", userDataConverter.toUserData(user));
+        } else {
+            modelAndView = displayLoginPage();
+        }
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ModelAndView doLogout(HttpSession session) {
         session.removeAttribute("user");

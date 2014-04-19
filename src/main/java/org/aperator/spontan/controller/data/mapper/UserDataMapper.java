@@ -6,6 +6,9 @@ import org.aperator.spontan.model.data.Password;
 import org.aperator.spontan.model.data.User;
 import org.aperator.spontan.model.data.manager.PasswordEncryptor;
 
+import java.util.LinkedList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: cedster
@@ -23,6 +26,8 @@ public class UserDataMapper {
     public User toUser(RegisterUserRequestData registerData) {
         User user = new User();
         user.setNickName(registerData.getNickname());
+        user.setFirstname(registerData.getFirstname());
+        user.setLastname(registerData.getLastname());
         Password password = new Password();
         password.setPasswordHash(passwordEncryptor.encrypt(registerData.getPassword()));
         user.setPassword(password);
@@ -37,10 +42,19 @@ public class UserDataMapper {
 
         UserData userData = new UserData();
         userData.setUserId(user.getId());
-        userData.setUsername(user.getUsername());
+        userData.setFirstname(user.getFirstname());
+        userData.setLastname(user.getLastname());
         userData.setNickname(user.getNickName());
         userData.setPhoneNumber(user.getPhoneNumber());
         userData.setEmail(user.getEmail());
+        return userData;
+    }
+
+    public List<UserData> toUserData(List<User> allUsers) {
+        List<UserData> userData = new LinkedList<>();
+        for (User user : allUsers) {
+            userData.add(toUserData(user));
+        }
         return userData;
     }
 }

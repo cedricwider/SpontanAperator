@@ -57,3 +57,4 @@ body {
 .border-radius {
     border-radius: 1px;
 }
+.top-buffer { margin-top:20px; }

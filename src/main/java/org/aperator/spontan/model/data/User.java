@@ -17,6 +17,8 @@ public class User implements Serializable {
     private Long id;
     private String username;
     private String nickName;
+    private String firstname;
+    private String lastname;
     private String phoneNumber;
     private Password password;
     private String email;
@@ -114,5 +116,21 @@ public class User implements Serializable {
         if (event.getOwner() != this) {
             event.setOwner(this);
         }
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 }

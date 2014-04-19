@@ -1,5 +1,8 @@
 package org.aperator.spontan.controller.data;
 
+import org.aperator.spontan.controller.data.mapper.JsonDateFormatter;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class EventData {
         this.id = id;
     }
 
+    @JsonSerialize(using = JsonDateFormatter.class)
     public Date getDate() {
         return date;
     }
