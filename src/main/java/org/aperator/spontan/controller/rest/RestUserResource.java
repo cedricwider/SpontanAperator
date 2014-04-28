@@ -1,6 +1,5 @@
 package org.aperator.spontan.controller.rest;
 
-import com.sun.servicetag.UnauthorizedAccessException;
 import org.aperator.spontan.controller.data.UserData;
 import org.aperator.spontan.controller.data.mapper.UserDataMapper;
 import org.aperator.spontan.model.data.User;
@@ -29,17 +28,20 @@ public class RestUserResource {
 
     @RequestMapping(value = "/{userid}", method = RequestMethod.GET, produces = "application/json")
     public @ResponseBody UserData getUser(@PathVariable Long userid, HttpSession session) {
-        if ( session.getAttribute("user") == null ) {
-            throw new UnauthorizedAccessException("Please log in first");
-        }
         User user = userDAO.findById(userid);
         return mapper.toUserData(user);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public @ResponseBody List<UserData> getCurrentUser(HttpSession session) {
+    public @ResponseBody List<UserData> getAllUsers() {
         List<User> allUsers = userDAO.getAll();
         return mapper.toUserData(allUsers);
+    }
+
+    @RequestMapping(value = "/me", method = RequestMethod.GET)
+    public @ResponseBody UserData getCurrentUser(HttpSession session) {
+        User sessionUser = (User) session.getAttribute("user");
+        return mapper.toUserData(sessionUser);
     }
 
     @RequestMapping(value="/{userid}", method = RequestMethod.PUT)

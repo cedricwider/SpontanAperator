@@ -42,7 +42,6 @@ public class UserDataTest {
         assertEquals(userData.getEmail(), user.getEmail());
         assertEquals(userData.getNickname(), user.getNickName());
         assertEquals(userData.getPhoneNumber(), user.getPhoneNumber());
-        assertEquals(userData.getUsername(), user.getUsername());
         assertEquals(userData.getUserId(), user.getId());
         assertEquals(userData.getEmail(), user.getEmail());
     }
